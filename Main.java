@@ -1,3 +1,8 @@
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
+
 public class Main {
     public static void main(String[] args) {
         // Create graph
@@ -6,10 +11,13 @@ public class Main {
         network.addPerson("Bob");
         network.addConnection("John", "Bob");
 
+        String message = "Test";
+
+        /* 
         // Send message
         String originalMessage = "AAABBBCCDAA";
         String compressedMessage = RunLengthEncoding.encode(originalMessage);
-
+        
         if (network.canSendMessage("John", "Bob")) {
             Message message = new Message(
                 "John", 
@@ -24,6 +32,7 @@ public class Main {
             System.out.println("\nDecoded Message: " + decodedMessage);
         } else {
             System.out.println("Cannot send message. Receiver not found in network.");
-        }
+        } */
+
     }
 }
