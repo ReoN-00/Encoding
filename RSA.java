@@ -74,7 +74,6 @@ public class RSA {
             x0 = x;
             x = (x.pow(2)).mod(n);
             if ((x == BigInteger.ONE) && (x0 != BigInteger.ONE) && (x0 != n.subtract(BigInteger.ONE))) {
-                System.out.println("BINGO");
                 return true;
             }
         }
