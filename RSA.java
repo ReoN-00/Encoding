@@ -2,11 +2,13 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Random;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 
 public class RSA {
 
+    // calculates(a^b)modn
     public static BigInteger modularExponentiation(BigInteger a, BigInteger b, BigInteger n) {
         if (b == BigInteger.ZERO) {
             return BigInteger.ONE;
@@ -23,10 +25,10 @@ public class RSA {
 
     public static BigInteger generateLargeNum() {
         SecureRandom secureRandom = new SecureRandom();
-        return new BigInteger(2048, secureRandom);
+        return new BigInteger(1024, secureRandom);
     }
 
-    public static BigInteger random(BigInteger min, BigInteger max) {
+    public static BigInteger generateLargeNumRange(BigInteger min, BigInteger max) {
         BigInteger bigNum = generateLargeNum();
         boolean found = false;
 
@@ -43,48 +45,81 @@ public class RSA {
 
     public static String millerRabin(BigInteger n, int s) {
         BigInteger a;
+        int j;
 
-        for (int j = 1; j <= s; j++) {
-            a = random(BigInteger.valueOf(2), n);
+        for (j = 1; j <= s; j++) {
+            a = generateLargeNumRange(BigInteger.valueOf(2), n.subtract(BigInteger.TWO));
             if (witness(a, n)) {
                 return "Definitely prime";
             }
         }
+        System.out.println(j);
+        System.out.println(n.mod(BigInteger.TWO));
         return "Almost surely prime";
     }
 
     public static boolean witness(BigInteger a, BigInteger n) {
-        BigInteger d = n.subtract(BigInteger.ONE);
-        int t = 0;
+        BigInteger u = n.subtract(BigInteger.ONE);
+        int t = 1;
 
-        while (d.mod(BigInteger.TWO) == BigInteger.ZERO) {
-            d = d.divide(BigInteger.TWO);
+        while (u.mod(BigInteger.TWO) == BigInteger.ZERO) {
+            u = u.divide(BigInteger.TWO);
             t += 1;
         }
+       
+        BigInteger x = modularExponentiation(a, u, n);
 
-        //System.out.println(d);
-        //System.out.println(t);
-
-        BigInteger x = modularExponentiation(a, d, n);
-        //System.out.println(x);
-
-        BigInteger x0; 
-
-        for (int i = 1; i < t + 1; i++) {
+        BigInteger x0; // holds prev value of x
+        
+        for (int i = 1; i <= t; i++) {
             x0 = x;
-            x = (x.pow(2)).mod(n);
+            x = (x0.pow(2)).mod(n);
             if ((x == BigInteger.ONE) && (x0 != BigInteger.ONE) && (x0 != n.subtract(BigInteger.ONE))) {
                 return true;
             }
         }
-        if (x != BigInteger.ONE) {
+        if ((x != BigInteger.ONE)) {
             return true;
         }
         return false;
     }
 
-    public static int stringToInt(String message) {
+    public static void RSA(String message) {
+        int mes = stringToInt(message);
+        BigInteger m = BigInteger.valueOf(mes);
+        System.out.println("Original message: " + m);
 
+        System.out.println(intToString(mes));
+
+        BigInteger p = generateLargeNum();
+        BigInteger q = generateLargeNum();
+
+        System.out.println(millerRabin(p, 10));
+        System.out.println(millerRabin(q, 10));
+
+        BigInteger n = p.multiply(q);
+
+        BigInteger e = BigInteger.valueOf(65537); // below verifies e is relatively prime to (p-1)(q-1)
+        BigInteger x = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)); 
+        // System.out.println(euclid(x, BigInteger.valueOf(65537)));
+
+        BigInteger d = ((BigInteger.ONE).divide(e)).multiply(x);
+
+        BigInteger c = modularExponentiation(m, e, n);
+        System.out.println("cipher text: " + c);
+    
+        BigInteger s = modularExponentiation(c, d, n);
+        System.out.println("Original message: " + s);
+    }
+
+    public static BigInteger euclid(BigInteger a, BigInteger b) {
+        if (b == BigInteger.ZERO) {
+            return a;
+        }
+        else return euclid(b, a.mod(b));
+    }
+
+    public static int stringToInt(String message) {
         byte[] output3 = message.getBytes(StandardCharsets.UTF_8);
         return ByteBuffer.wrap(output3).getInt();
     }
@@ -104,12 +139,14 @@ public class RSA {
         // System.out.println(i);
         // System.out.println(intToString(i));
 
-        BigInteger x = generateLargeNum();
+        //BigInteger x = generateLargeNum();
+        //BigInteger y = BigInteger.valueOf(561);
         // System.out.println(x);
 
         //System.out.println(witness(BigInteger.valueOf(2), BigInteger.valueOf(561)));
 
-        System.out.println(millerRabin(x, 5));
+        //System.out.println(millerRabin(x, 5));
+        RSA("test");
     }
 }
 
