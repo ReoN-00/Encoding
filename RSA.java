@@ -13,8 +13,8 @@ public class RSA {
         if (b == BigInteger.ZERO) {
             return BigInteger.ONE;
         }
-        else if ((b.mod(BigInteger.TWO)) == BigInteger.ZERO) {
-            BigInteger d = modularExponentiation(a, b.divide(BigInteger.TWO), n);
+        else if ((b.mod(BigInteger.valueOf(2))).equals(BigInteger.ZERO)) {
+            BigInteger d = modularExponentiation(a, b.divide(BigInteger.valueOf(2)), n);
             return (d.multiply(d)).mod(n);
         }
         else {
@@ -48,13 +48,13 @@ public class RSA {
         int j;
 
         for (j = 1; j <= s; j++) {
-            a = generateLargeNumRange(BigInteger.valueOf(2), n.subtract(BigInteger.TWO));
+            a = generateLargeNumRange(BigInteger.valueOf(2), n.subtract(BigInteger.valueOf(2)));
             if (witness(a, n)) {
                 return "Definitely prime";
             }
         }
         System.out.println(j);
-        System.out.println(n.mod(BigInteger.TWO));
+        System.out.println(n.mod(BigInteger.valueOf(2)));
         return "Almost surely prime";
     }
 
@@ -62,8 +62,8 @@ public class RSA {
         BigInteger u = n.subtract(BigInteger.ONE);
         int t = 1;
 
-        while (u.mod(BigInteger.TWO) == BigInteger.ZERO) {
-            u = u.divide(BigInteger.TWO);
+        while (u.mod(BigInteger.valueOf(2)) == BigInteger.ZERO) {
+            u = u.divide(BigInteger.valueOf(2));
             t += 1;
         }
        
