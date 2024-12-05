@@ -7,7 +7,18 @@ import java.math.BigInteger;
 
 
 public class RSA {
-    // calculates(a^b)modn
+    BigInteger p = RSA.generateLargeNum(); // Generate 1024 bit length numbers
+    BigInteger q = RSA.generateLargeNum();
+
+    BigInteger n = p.multiply(q);
+
+    BigInteger e = BigInteger.valueOf(65537); // below verifies e is relatively prime to (p-1)(q-1)
+    BigInteger x = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)); 
+    // System.out.println(RSA.euclid(x, BigInteger.valueOf(65537)));
+
+    BigInteger d = ((BigInteger.ONE).divide(e)).multiply(x);
+
+// calculates(a^b)modn
     public static BigInteger modularExponentiation(BigInteger a, BigInteger b, BigInteger n) {
         if (b == BigInteger.ZERO) {
             return BigInteger.ONE;
@@ -102,6 +113,21 @@ public class RSA {
             (byte)(num >> 8),
             (byte)num };
         return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+    public BigInteger rsaEncode (String message) {
+        System.out.println(RSA.millerRabin(p, 10)); // check if prime
+        System.out.println(RSA.millerRabin(q, 10));
+
+        BigInteger m = BigInteger.valueOf(RSA.stringToInt(message)); // Convert message to number used for encryption
+
+        return RSA.modularExponentiation(m, e, n);
+    }
+
+    public String rsaDecode(BigInteger num) {
+        BigInteger decodedMessage = modularExponentiation(num, d, n);
+        
+        return intToString(decodedMessage.intValue());
     }
 }
 
