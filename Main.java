@@ -63,7 +63,6 @@ public class Main {
         System.out.println("Original Message (RSA): " + originalMessageRSA);
 
         RSA rsa = new RSA();
-
         BigInteger encodedMessageRSA = rsa.rsaEncode(originalMessageRSA);
         
         if (network.canSendMessage("John", "Bob")) {

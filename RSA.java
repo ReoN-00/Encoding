@@ -7,18 +7,18 @@ import java.math.BigInteger;
 
 
 public class RSA {
-    BigInteger p = RSA.generateLargeNum(); // Generate 1024 bit length numbers
-    BigInteger q = RSA.generateLargeNum();
+    private BigInteger p = RSA.generateLargeNum(); // Generate 1024 bit length numbers
+    private BigInteger q = RSA.generateLargeNum();
 
-    BigInteger n = p.multiply(q);
+    private BigInteger n = RSA.generateLargeNum().multiply(RSA.generateLargeNum());
 
-    BigInteger e = BigInteger.valueOf(65537); // below verifies e is relatively prime to (p-1)(q-1)
-    BigInteger x = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)); 
+    private BigInteger e = BigInteger.valueOf(65537); // below verifies e is relatively prime to (p-1)(q-1)
+    private BigInteger x = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)); 
     // System.out.println(RSA.euclid(x, BigInteger.valueOf(65537)));
 
-    BigInteger d = ((BigInteger.ONE).divide(e)).multiply(x);
+    private BigInteger d = ((BigInteger.ONE).divide(e)).multiply(x);
 
-// calculates(a^b)modn
+    // calculates(a^b)modn
     public static BigInteger modularExponentiation(BigInteger a, BigInteger b, BigInteger n) {
         if (b == BigInteger.ZERO) {
             return BigInteger.ONE;
@@ -130,4 +130,3 @@ public class RSA {
         return intToString(decodedMessage.intValue());
     }
 }
-
