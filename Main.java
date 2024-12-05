@@ -13,26 +13,26 @@ public class Main {
 
         String message = "Test";
 
-        /* 
-        // Send message
+        
+        // Send message test
         String originalMessage = "AAABBBCCDAA";
         String compressedMessage = RunLengthEncoding.encode(originalMessage);
         
         if (network.canSendMessage("John", "Bob")) {
-            Message message = new Message(
+            Message testmessage = new Message(
                 "John", 
                 "Bob", 
                 "Encoding: RLE, Original Length: " + originalMessage.length(), 
                 compressedMessage
             );
-            System.out.println(message);
+            System.out.println(testmessage);
 
             // Decode message
             String decodedMessage = RunLengthEncoding.decode(compressedMessage);
             System.out.println("\nDecoded Message: " + decodedMessage);
         } else {
             System.out.println("Cannot send message. Receiver not found in network.");
-        } */
+        } 
 
     }
 }
