@@ -7,7 +7,6 @@ import java.math.BigInteger;
 
 
 public class RSA {
-
     // calculates(a^b)modn
     public static BigInteger modularExponentiation(BigInteger a, BigInteger b, BigInteger n) {
         if (b == BigInteger.ZERO) {
@@ -84,34 +83,6 @@ public class RSA {
         return false;
     }
 
-    public static void RSA(String message) {
-        int mes = stringToInt(message);
-        BigInteger m = BigInteger.valueOf(mes);
-        System.out.println("Original message: " + m);
-
-        System.out.println(intToString(mes));
-
-        BigInteger p = generateLargeNum();
-        BigInteger q = generateLargeNum();
-
-        System.out.println(millerRabin(p, 10));
-        System.out.println(millerRabin(q, 10));
-
-        BigInteger n = p.multiply(q);
-
-        BigInteger e = BigInteger.valueOf(65537); // below verifies e is relatively prime to (p-1)(q-1)
-        BigInteger x = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE)); 
-        // System.out.println(euclid(x, BigInteger.valueOf(65537)));
-
-        BigInteger d = ((BigInteger.ONE).divide(e)).multiply(x);
-
-        BigInteger c = modularExponentiation(m, e, n);
-        System.out.println("cipher text: " + c);
-    
-        BigInteger s = modularExponentiation(c, d, n);
-        System.out.println("Original message: " + s);
-    }
-
     public static BigInteger euclid(BigInteger a, BigInteger b) {
         if (b == BigInteger.ZERO) {
             return a;
@@ -131,22 +102,6 @@ public class RSA {
             (byte)(num >> 8),
             (byte)num };
         return new String(bytes, StandardCharsets.UTF_8);
-    }
-
-    public static void main(String[] args) {
-        String message = "Test";
-        int i = stringToInt(message);
-        // System.out.println(i);
-        // System.out.println(intToString(i));
-
-        //BigInteger x = generateLargeNum();
-        //BigInteger y = BigInteger.valueOf(561);
-        // System.out.println(x);
-
-        //System.out.println(witness(BigInteger.valueOf(2), BigInteger.valueOf(561)));
-
-        //System.out.println(millerRabin(x, 5));
-        RSA("test");
     }
 }
 
