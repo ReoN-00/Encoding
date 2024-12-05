@@ -8,12 +8,6 @@ public class Main {
         network.addConnection("John", "Bob");
         network.addConnection("Alice", "Bob");
 
-<<<<<<< HEAD
-        // Send message
-        String originalMessage = "AAABBBCCDAA";
-        String compressedMessage = RunLengthEncoding.encode(originalMessage);
-        
-=======
         // Task 1: Run-Length Encoding Test
         System.out.println("--- Task 1: Run-Length Encoding Test ---");
         String originalMessageRLE = "AAABBBCCDAA";
@@ -22,7 +16,6 @@ public class Main {
         String compressedMessageRLE = RunLengthEncoding.encode(originalMessageRLE);
         System.out.println("Compressed Message (RLE): " + compressedMessageRLE);
 
->>>>>>> 875928bc76b23086ee7349204142a05458533bfd
         if (network.canSendMessage("John", "Bob")) {
             Message rleMessage = new Message(
                 "John",
@@ -38,11 +31,7 @@ public class Main {
             System.out.println("Decoded Message (RLE): " + decodedMessageRLE);
         } else {
             System.out.println("Cannot send message. Receiver not found in network.");
-<<<<<<< HEAD
-        } 
-=======
         }
->>>>>>> 875928bc76b23086ee7349204142a05458533bfd
 
         // Task 2: FFT Compression Test
         System.out.println("\n--- Task 2: FFT Compression Test ---");
