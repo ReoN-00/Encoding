@@ -24,7 +24,9 @@ public class RunLengthEncoding {
                 count.append(c);
             } else {
                 int repeat = Integer.parseInt(count.toString());
-                decoded.append(String.valueOf(c).repeat(repeat));
+                for (int i = 0; i < repeat; i++) {
+                    decoded.append(c);
+                }
                 count.setLength(0);
             }
         }
